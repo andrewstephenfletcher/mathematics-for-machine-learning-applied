@@ -1,0 +1,10 @@
+# Pair every notebook with a percent-format .py twin so diffs are readable and
+# Claude Code can edit the .py side directly.
+#
+#   notebooks/2_7_linear_mappings.ipynb  <->  notebooks/2_7_linear_mappings.py
+#
+# After editing either side by hand, run:
+#   uv run jupytext --sync chapters/**/notebooks/*.ipynb
+formats = "ipynb,py:percent"
+notebook_metadata_filter = "-all"
+cell_metadata_filter = "-all"

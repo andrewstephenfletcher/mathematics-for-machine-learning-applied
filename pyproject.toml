@@ -1,0 +1,62 @@
+[project]
+name = "mml-applied"
+version = "0.1.0"
+description = "Working through Mathematics for Machine Learning, applied to AI safety research problems"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.2",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+    "scikit-learn>=1.4",
+    "einops>=0.7",
+    "jaxtyping>=0.2.28",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+interp = [
+    "transformer-lens>=2.0",
+    "datasets>=2.18",
+]
+
+[dependency-groups]
+dev = [
+    "jupyterlab>=4.1",
+    "ipykernel>=6.29",
+    "jupytext>=1.16",
+    "nbstripout>=0.7",
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "pre-commit>=3.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "chapters"]
+python_files = ["test_*.py"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["book", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+# F722 (forward-annotation syntax) fires on jaxtyping shape strings like
+# Float[Tensor, "batch d_model"]; F821 fires on the shape names themselves.
+ignore = ["F722", "F821", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook .py twins: allow the percent-format cell markers and loose imports.
+"chapters/**/notebooks/*.py" = ["E402", "E501"]
+
+# Jupytext pairing is configured in jupytext.toml, not here, so there is one source of truth.
